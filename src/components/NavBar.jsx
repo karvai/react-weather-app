@@ -17,9 +17,6 @@ const NavBar = () => {
 	const [savedLocationsValue, setSavedLocationsValue] = savedLocations
 	const [currentLocationValue] = currentLocation
 
-	console.log('favorite - ' + favouritesLocationsValue)
-	console.log('saved - ' + savedLocationsValue)
-
 	const handleFavourite = () => {
 		if (favouritesLocationsValue.includes(currentLocationValue)) {
 			setFavouritesLocationsValue(
