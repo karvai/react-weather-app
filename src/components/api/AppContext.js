@@ -9,7 +9,6 @@ export const AppProvider = (props) => {
 	const [savedLocations, setSavedLocations] = useState(!!localStorage.getItem('saved') ? JSON.parse(localStorage.getItem('saved')) : [])
 	const [savedWeather, setSavedWeather] = useState([])
 	const [isCelsius, setIsCelsius] = useState(!!localStorage.getItem('celsius') ? JSON.parse(localStorage.getItem('celsius')) : true)
-	const [detailedWeather, setDetailedWeather] = useState([])
 	const [currentLocation, setCurrentLocation] = useState()
 
 	const conditionWeatherIcon = (time, condition) => {
@@ -53,5 +52,5 @@ export const AppProvider = (props) => {
 		localStorage.setItem('celsius', JSON.stringify(isCelsius))
 	}, [favouritesLocations, savedLocations, isCelsius])
 
-	return <AppContext.Provider value={{ conditionWeatherIcon, favouriteWeather: [favouriteWeather, setFavouriteWeather], favouritesLocations: [favouritesLocations, setFavouritesLocations], savedWeather: [savedWeather, setSavedWeather], savedLocations: [savedLocations, setSavedLocations], isCelsius: [isCelsius, setIsCelsius], detailedWeather: [detailedWeather, setDetailedWeather], currentLocation: [currentLocation, setCurrentLocation] }}>{props.children}</AppContext.Provider>
+	return <AppContext.Provider value={{ conditionWeatherIcon, favouriteWeather: [favouriteWeather, setFavouriteWeather], favouritesLocations: [favouritesLocations, setFavouritesLocations], savedWeather: [savedWeather, setSavedWeather], savedLocations: [savedLocations, setSavedLocations], isCelsius: [isCelsius, setIsCelsius], currentLocation: [currentLocation, setCurrentLocation] }}>{props.children}</AppContext.Provider>
 }

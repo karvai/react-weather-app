@@ -1,10 +1,11 @@
-import React, { useEffect, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import { weatherAPI } from '../api/FetchData'
 import { useLocation } from 'react-router-dom'
 import { AppContext } from '../api/AppContext'
 import LocView from '../weather-details/LocView'
 import WeatherOtherDay from './WeatherOtherDay'
 import styled from 'styled-components'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // styles
 const OtherDayContainer = styled.div`
@@ -14,11 +15,23 @@ const OtherDayContainer = styled.div`
 	align-items: center;
 `
 
+const Container = styled.div`
+	margin-bottom: 100px;
+`
+const Center = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 5%;
+	height: 100vh;
+`
+
 const DetailedLocWeather = () => {
-	const { detailedWeather, isCelsius, currentLocation, conditionWeatherIcon } = useContext(AppContext)
-	const [detailedWeatherValue, setDetailedWeatherValue] = detailedWeather
+	const { isCelsius, currentLocation, conditionWeatherIcon } = useContext(AppContext)
 	const [cel] = isCelsius
 	const [currentLocationValue, setCurrentLocation] = currentLocation
+
+	const [detailedWeatherValue, setDetailedWeatherValue] = useState([])
 
 	// gets the city name from URL
 	const currentURLlocationArr = useLocation().pathname.split('/')
@@ -34,7 +47,7 @@ const DetailedLocWeather = () => {
 	}, [currentLocationValue])
 
 	return (
-		<>
+		<Container>
 			{detailedWeatherValue.length !== 0 ? (
 				<>
 					<LocView location={detailedWeatherValue.location.name} localtime={detailedWeatherValue.location.localtime} temperature={cel ? detailedWeatherValue.current.temp_c : detailedWeatherValue.current.temp_f} condition={detailedWeatherValue.current.condition.text} wind={detailedWeatherValue.current.wind_kph} humidity={detailedWeatherValue.current.humidity} visibility={detailedWeatherValue.current.vis_km} />
@@ -45,9 +58,11 @@ const DetailedLocWeather = () => {
 					</OtherDayContainer>
 				</>
 			) : (
-				<span>Loading...</span>
+				<Center>
+					<CircularProgress />
+				</Center>
 			)}
-		</>
+		</Container>
 	)
 }
 

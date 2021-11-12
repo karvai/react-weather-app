@@ -24,6 +24,8 @@ const Container = styled.div`
 	}
 
 	.location {
+		margin: 0 3%;
+		text-align: center;
 		margin-top: 35px;
 		font-size: 38px;
 	}

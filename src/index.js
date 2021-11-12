@@ -18,7 +18,6 @@ const GlobalStyle = createGlobalStyle`
 	}
 	body{
 		background-color:#FAFAFA;
-		margin-bottom: 100px;
 	}
 `
 
