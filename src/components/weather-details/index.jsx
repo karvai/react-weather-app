@@ -4,9 +4,18 @@ import { useLocation } from 'react-router-dom'
 import { AppContext } from '../api/AppContext'
 import LocView from '../weather-details/LocView'
 import WeatherOtherDay from './WeatherOtherDay'
+import styled from 'styled-components'
+
+// styles
+const OtherDayContainer = styled.div`
+	margin-top: 45px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+`
 
 const DetailedLocWeather = () => {
-	const { detailedWeather, isCelsius, currentLocation } = useContext(AppContext)
+	const { detailedWeather, isCelsius, currentLocation, conditionWeatherIcon } = useContext(AppContext)
 	const [detailedWeatherValue, setDetailedWeatherValue] = detailedWeather
 	const [cel] = isCelsius
 	const [currentLocationValue, setCurrentLocation] = currentLocation
@@ -28,13 +37,15 @@ const DetailedLocWeather = () => {
 		<>
 			{detailedWeatherValue.length !== 0 ? (
 				<>
-					<LocView location={detailedWeatherValue.location.name} temperature={cel ? detailedWeatherValue.current.temp_c : detailedWeatherValue.current.temp_f} condition={detailedWeatherValue.current.condition.text} wind={detailedWeatherValue.current.wind_mph} humidity={detailedWeatherValue.current.humidity} visibility={detailedWeatherValue.current.vis_miles} />
-					{detailedWeatherValue.forecast.forecastday.map((da) => (
-						<WeatherOtherDay date={new Date(da.date).toLocaleString('default', { day: 'numeric', month: 'short' })} temperature={cel ? da.day.maxtemp_c : da.day.maxtemp_f} condition={da.day.condition.text} key={da.date} />
-					))}
+					<LocView location={detailedWeatherValue.location.name} localtime={detailedWeatherValue.location.localtime} temperature={cel ? detailedWeatherValue.current.temp_c : detailedWeatherValue.current.temp_f} condition={detailedWeatherValue.current.condition.text} wind={detailedWeatherValue.current.wind_kph} humidity={detailedWeatherValue.current.humidity} visibility={detailedWeatherValue.current.vis_km} />
+					<OtherDayContainer>
+						{detailedWeatherValue.forecast.forecastday.map((da) => (
+							<WeatherOtherDay date={new Date(da.date).toLocaleString('default', { day: 'numeric', month: 'short' })} temperature={cel ? da.day.maxtemp_c : da.day.maxtemp_f} icon={conditionWeatherIcon('12:00', da.day.condition.text)} key={da.date} />
+						))}
+					</OtherDayContainer>
 				</>
 			) : (
-				'Loading...'
+				<span>Loading...</span>
 			)}
 		</>
 	)
